@@ -18,11 +18,10 @@ Route::get('/', function () {
 Route::group(['middleware' => 'cors', 'prefix' => 'api'], function (){
 	Route::resource('authenticate','AuthenticateController',['only'=>['index']]);
 	Route::post('authenticate','AuthenticateController@authenticate');
-	Route::get('authenticate/user','AuthenticateController@AuthenticatedUser');
+	Route::get('authenticate/user','AuthenticateController@getAuthenticatedUser');
 });
 
 Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function (){
-	Route::resource('jokes','JokesController');
 	
 	Route::get('/posts',[
 		'uses'	=>	'PostsController@index',

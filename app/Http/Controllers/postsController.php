@@ -10,7 +10,7 @@ use App\User;
 use Response;
 use Input;
 
-class postsController extends Controller
+class PostsController extends Controller
 {
     public function __construct()
     {
