@@ -22,7 +22,6 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api'], function (){
 });
 
 Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function (){
-	Route::resource('jokes','JokesController');
 	
 	Route::get('/posts',[
 		'uses'	=>	'PostsController@index',
