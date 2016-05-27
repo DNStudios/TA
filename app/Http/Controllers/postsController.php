@@ -32,8 +32,7 @@ class PostsController extends Controller
     			'limit'		=>	$limit
     			));
     	}
-    	else
-    	{
+    	else{
     		$posts = Post::orderBy('id','DESC')->with(array('User' => function ($query){
     			$query->select('id','name');
     		})

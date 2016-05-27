@@ -24,8 +24,43 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function jokes(){
-        return $this->hasMany('App\Joke');
+    protected $append = [
+        'jml_follow',
+        'jml_unfollow'
+    ];
+
+    public function getFullName(){
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
+    public function posts(){
+        return $this->hasMany('App\Post');
+    }
+
+    public function comments(){
+        return $this->hasMany('App\Comment');
+    }
+
+    public function likes(){
+        return $this->hasMany('App\Like');
+    }
+
+    public function groups(){
+        return $this->hasMany('App\Group');
+    }
+
+    public function userFollows(){
+        return $this->hasMany('App\userFollow');
+    }
+
+    public function follow(){
+        $result = userFollow::where('friend_id','=',$this->id)->where('follow','=',1)->get();
+        return $result->count();
+    }
+
+    public function unfollow(){
+        $result = userFollow::where('friend_id','=',$this->id)->where('follow','=',0)->get();
+        return $result->count();
     }
 
 }

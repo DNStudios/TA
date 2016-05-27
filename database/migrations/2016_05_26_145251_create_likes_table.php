@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 class CreateLikesTable extends Migration
 {
     /**
-     * Run the migrations
+     * Run the migrations.
      *
      * @return void
      */
@@ -14,12 +14,16 @@ class CreateLikesTable extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->increments('id');
+            
             $table->integer('user_id')->unsigned();
-            $table->integer('post_id');
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->integer('post_id')->unsigned();
+            $table->foreign('post_id')->references('id')->on('posts');
+            
             $table->boolean('like');
+
             $table->timestamps();
-            $table->foreign('user_id')->references('id')
-                                      ->on('users')->onDelete('restrict');
         });
     }
 
