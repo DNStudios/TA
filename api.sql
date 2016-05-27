@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: May 25, 2016 at 12:11 PM
+-- Generation Time: May 26, 2016 at 07:57 PM
 -- Server version: 5.7.10-log
 -- PHP Version: 5.6.13
 
@@ -30,9 +30,20 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `id` int(10) unsigned NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `post_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`, `isDeleted`, `post_id`, `created_at`, `updated_at`) VALUES
+(1, 'Web Developer', 0, 2, '2016-05-27 00:00:47', '2016-05-27 00:00:50'),
+(2, 'Hukum TIK', 0, 4, '2016-05-27 00:01:06', '2016-05-27 00:01:10'),
+(3, 'Web Developer', 0, 2, '2016-05-27 00:02:00', '2016-05-27 00:02:03'),
+(4, 'Keamanan Jaringan', 0, 2, '2016-05-26 18:53:15', '2016-05-26 18:53:15');
 
 -- --------------------------------------------------------
 
@@ -42,13 +53,21 @@ CREATE TABLE IF NOT EXISTS `categories` (
 
 CREATE TABLE IF NOT EXISTS `comments` (
   `id` int(10) unsigned NOT NULL,
-  `text` text COLLATE utf8_unicode_ci NOT NULL,
+  `text` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
   `post_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`id`, `text`, `email`, `isDeleted`, `post_id`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'Bissmilah', 'danaekairwanda', 0, 2, 2, '2016-05-26 17:54:22', '2016-05-26 17:54:27');
 
 -- --------------------------------------------------------
 
@@ -75,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
 CREATE TABLE IF NOT EXISTS `likes` (
   `id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
-  `post_id` int(11) NOT NULL,
+  `post_id` int(10) unsigned NOT NULL,
   `like` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -114,7 +133,19 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2016_05_25_180154_create_categories_table', 12),
 ('2016_05_25_180256_create_userFollows_table', 12),
 ('2016_05_25_182201_create_postArticle_table', 12),
-('2016_05_25_182756_create_groups_table', 13);
+('2016_05_25_182756_create_groups_table', 13),
+('2016_05_26_140701_create_tags_table', 14),
+('2016_05_26_142536_create_userFollows_table', 15),
+('2016_05_26_144949_create_groups_table', 16),
+('2016_05_26_145251_create_likes_table', 17),
+('2016_05_26_145918_create_userFollows_table', 18),
+('2016_05_26_150238_create_groups_table', 19),
+('2016_05_26_150415_create_comments_table', 20),
+('2016_05_26_150952_create_tags_table', 20),
+('2016_05_26_151058_create_categories_table', 20),
+('2016_05_26_174221_create_comments_table', 21),
+('2016_05_26_180520_create_tags_table', 22),
+('2016_05_26_181031_create_categories_table', 23);
 
 -- --------------------------------------------------------
 
@@ -126,22 +157,6 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `postarticle`
---
-
-CREATE TABLE IF NOT EXISTS `postarticle` (
-  `post_id` int(10) unsigned NOT NULL,
-  `like_id` int(10) unsigned NOT NULL,
-  `category_id` int(10) unsigned NOT NULL,
-  `tag_id` int(10) unsigned NOT NULL,
-  `comment_id` int(10) unsigned NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -159,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `user_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `posts`
@@ -178,11 +193,21 @@ INSERT INTO `posts` (`id`, `title`, `body`, `image`, `isDeleted`, `user_id`, `cr
 
 CREATE TABLE IF NOT EXISTS `tags` (
   `id` int(10) unsigned NOT NULL,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `post_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tags`
+--
+
+INSERT INTO `tags` (`id`, `name`, `isDeleted`, `post_id`, `created_at`, `updated_at`) VALUES
+(1, 'Laravel', 0, 2, '2016-05-26 23:58:56', '2016-05-26 23:58:59'),
+(2, 'AngularJS', 0, 4, '2016-05-26 23:59:14', '2016-05-26 23:59:18'),
+(3, 'PHP artisan', 0, 2, '2016-05-26 23:59:38', '2016-05-26 18:17:49');
 
 -- --------------------------------------------------------
 
@@ -264,13 +289,16 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `creat
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `categories_post_id_foreign` (`post_id`);
 
 --
 -- Indexes for table `comments`
 --
 ALTER TABLE `comments`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `comments_post_id_foreign` (`post_id`),
+  ADD KEY `comments_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `groups`
@@ -284,7 +312,8 @@ ALTER TABLE `groups`
 --
 ALTER TABLE `likes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `likes_user_id_foreign` (`user_id`);
+  ADD KEY `likes_user_id_foreign` (`user_id`),
+  ADD KEY `likes_post_id_foreign` (`post_id`);
 
 --
 -- Indexes for table `password_resets`
@@ -292,16 +321,6 @@ ALTER TABLE `likes`
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`),
   ADD KEY `password_resets_token_index` (`token`);
-
---
--- Indexes for table `postarticle`
---
-ALTER TABLE `postarticle`
-  ADD KEY `postarticle_post_id_foreign` (`post_id`),
-  ADD KEY `postarticle_like_id_foreign` (`like_id`),
-  ADD KEY `postarticle_category_id_foreign` (`category_id`),
-  ADD KEY `postarticle_tag_id_foreign` (`tag_id`),
-  ADD KEY `postarticle_comment_id_foreign` (`comment_id`);
 
 --
 -- Indexes for table `posts`
@@ -314,15 +333,16 @@ ALTER TABLE `posts`
 -- Indexes for table `tags`
 --
 ALTER TABLE `tags`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tags_post_id_foreign` (`post_id`);
 
 --
 -- Indexes for table `userfollows`
 --
 ALTER TABLE `userfollows`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `userfollows_user_id_foreign` (`user_id`),
-  ADD KEY `userfollows_friend_id_foreign` (`friend_id`);
+  ADD KEY `userfollows_friend_id_foreign` (`friend_id`),
+  ADD KEY `userfollows_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -339,12 +359,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `groups`
 --
@@ -359,12 +379,12 @@ ALTER TABLE `likes`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `userfollows`
 --
@@ -380,6 +400,19 @@ ALTER TABLE `users`
 --
 
 --
+-- Constraints for table `categories`
+--
+ALTER TABLE `categories`
+  ADD CONSTRAINT `categories_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`);
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`),
+  ADD CONSTRAINT `comments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
 -- Constraints for table `groups`
 --
 ALTER TABLE `groups`
@@ -389,23 +422,20 @@ ALTER TABLE `groups`
 -- Constraints for table `likes`
 --
 ALTER TABLE `likes`
+  ADD CONSTRAINT `likes_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`),
   ADD CONSTRAINT `likes_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `postarticle`
---
-ALTER TABLE `postarticle`
-  ADD CONSTRAINT `postarticle_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
-  ADD CONSTRAINT `postarticle_comment_id_foreign` FOREIGN KEY (`comment_id`) REFERENCES `comments` (`id`),
-  ADD CONSTRAINT `postarticle_like_id_foreign` FOREIGN KEY (`like_id`) REFERENCES `likes` (`id`),
-  ADD CONSTRAINT `postarticle_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`),
-  ADD CONSTRAINT `postarticle_tag_id_foreign` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`);
 
 --
 -- Constraints for table `posts`
 --
 ALTER TABLE `posts`
   ADD CONSTRAINT `posts_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `tags`
+--
+ALTER TABLE `tags`
+  ADD CONSTRAINT `tags_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`);
 
 --
 -- Constraints for table `userfollows`
