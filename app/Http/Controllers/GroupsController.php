@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+<<<<<<< HEAD
 use App\Group;
 use Input;
 use Response;
@@ -150,4 +151,10 @@ class GroupsController extends Controller
     		'submitted_by'	=> $groups['user']['name']
     	];
     }
+=======
+
+class GroupsController extends Controller
+{
+    //
+>>>>>>> c4327df9b8736d3c8a842d758d030bde4ced110f
 }

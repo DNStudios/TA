@@ -24,7 +24,11 @@ class Comment extends Model
     ];
 
     public function posts(){
+<<<<<<< HEAD
     	return $this->belongsTo('App\Post');
+=======
+    	return $this->belongsTo("App\Post");
+>>>>>>> c4327df9b8736d3c8a842d758d030bde4ced110f
     }
 
     public function user(){

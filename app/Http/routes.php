@@ -180,10 +180,13 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function (){
 		'as'	=>	'group.destroy'
 		]);
 
+<<<<<<< HEAD
 	Route::get('/getGroupsByUser/{userId}', [
 		'uses'	=>	'GroupsController@getGroupsByUser',
 		'as'	=>	'group.user'
 		]);
 
+=======
+>>>>>>> c4327df9b8736d3c8a842d758d030bde4ced110f
 	/** End Route group **/
 });

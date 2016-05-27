@@ -24,6 +24,10 @@ class Group extends Model
     ];
 
     public function user(){
+<<<<<<< HEAD
     	return $this->belongsTo('App\User');
+=======
+    	return $this->belongsToMany('App\User');
+>>>>>>> c4327df9b8736d3c8a842d758d030bde4ced110f
     }
 }
